@@ -21,6 +21,7 @@ internal sealed unsafe class Minimap : IDisposable
     private State? _lastState;
     private bool _adjustmentsApplied;
     private bool _layoutCaptured;
+    private NodeTransform _mapBaseTransform;
     private NodeTransform _maskTransform;
     private NodeTransform _collisionTransform;
 
@@ -51,6 +52,7 @@ internal sealed unsafe class Minimap : IDisposable
 
         if (!_layoutCaptured && TryGetNodes(addon, out var initialNodes))
         {
+            _mapBaseTransform = NodeTransform.From(initialNodes.MapBase);
             _maskTransform = NodeTransform.From(initialNodes.Mask);
             _collisionTransform = NodeTransform.From(initialNodes.Collision);
             _layoutCaptured = true;
@@ -198,6 +200,7 @@ internal sealed unsafe class Minimap : IDisposable
             addon->GetNodeById(3),
             addon->GetNodeById(16),
             addon->GetNodeById(14),
+            addon->GetNodeById(18),
             addon->GetNodeById(17),
             addon->GetNodeById(19));
 
@@ -224,6 +227,7 @@ internal sealed unsafe class Minimap : IDisposable
 
     private void SetViewport(Nodes nodes, float width, float height)
     {
+        nodes.MapBase->SetScale(_mapBaseTransform.ScaleX * width, _mapBaseTransform.ScaleY * height);
         nodes.Mask->SetScale(_maskTransform.ScaleX * width, _maskTransform.ScaleY * height);
 
         var collisionScaleX = _collisionTransform.ScaleX * width;
@@ -310,6 +314,7 @@ internal sealed unsafe class Minimap : IDisposable
         internal readonly AtkResNode* ZoomOut;
         internal readonly AtkResNode* Sun;
         internal readonly AtkResNode* Weather;
+        internal readonly AtkResNode* MapBase;
         internal readonly AtkResNode* Mask;
         internal readonly AtkResNode* Collision;
 
@@ -323,6 +328,7 @@ internal sealed unsafe class Minimap : IDisposable
             AtkResNode* zoomOut,
             AtkResNode* sun,
             AtkResNode* weather,
+            AtkResNode* mapBase,
             AtkResNode* mask,
             AtkResNode* collision)
         {
@@ -335,6 +341,7 @@ internal sealed unsafe class Minimap : IDisposable
             ZoomOut = zoomOut;
             Sun = sun;
             Weather = weather;
+            MapBase = mapBase;
             Mask = mask;
             Collision = collision;
         }
@@ -349,6 +356,7 @@ internal sealed unsafe class Minimap : IDisposable
             ZoomOut != null &&
             Sun != null &&
             Weather != null &&
+            MapBase != null &&
             Mask != null &&
             Collision != null;
     }
