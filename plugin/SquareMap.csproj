@@ -1,0 +1,30 @@
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+  <PropertyGroup>
+    <Version Condition="'$(Version)' == ''">1.0.0</Version>
+    <AssemblyName>SquareMap</AssemblyName>
+    <RootNamespace>SquareMap</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Author>linusfr</Author>
+    <Name>Square Map</Name>
+    <Punchline>Makes the minimap square and strips away unwanted decoration.</Punchline>
+    <Description>Reframes the native minimap as a clean square and provides controls for its border, ornaments, compass, coordinates, weather, and zoom controls.</Description>
+    <ApplicableVersion>any</ApplicableVersion>
+    <DalamudApiLevel>15</DalamudApiLevel>
+    <Tags>minimap;map;hud;interface</Tags>
+    <RepoUrl>https://github.com/linusfr/ffxiv-square-map</RepoUrl>
+    <IconUrl>https://raw.githubusercontent.com/linusfr/ffxiv-square-map/main/images/icon.png</IconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\images\icon.png" Link="images\icon.png"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\images\square-mask.tex" Link="assets\square-mask.tex"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\images\square-mask-hr1.tex" Link="assets\square-mask-hr1.tex"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

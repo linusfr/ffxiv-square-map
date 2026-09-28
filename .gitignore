@@ -1,0 +1,22 @@
+# Build output
+/dist/
+plugin/bin/
+plugin/obj/
+SquareMap.zip
+pack/
+
+# Dalamud auto-generated assembly info
+*.AssemblyInfo.cs
+*.AssemblyAttributes.cs
+
+# AI context files
+CLAUDE.md
+AGENTS.md
+.ai-session-state.md
+
+# IDE / OS
+.vs/
+.vscode/
+*.user
+.DS_Store
+Thumbs.db

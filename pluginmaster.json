@@ -1,0 +1,24 @@
+[
+  {
+    "Author": "linusfr",
+    "Name": "Square Map",
+    "InternalName": "SquareMap",
+    "Punchline": "Makes the minimap square and strips away unwanted decoration.",
+    "Description": "Reframes the native minimap as a clean square and provides controls for its border, ornaments, compass, coordinates, weather, and zoom controls.",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 15,
+    "Tags": [
+      "minimap",
+      "map",
+      "hud",
+      "interface"
+    ],
+    "AssemblyVersion": "1.0.0.0",
+    "RepoUrl": "https://github.com/linusfr/ffxiv-square-map",
+    "DownloadLinkInstall": "https://github.com/linusfr/ffxiv-square-map/releases/latest/download/SquareMap.zip",
+    "DownloadLinkUpdate": "https://github.com/linusfr/ffxiv-square-map/releases/latest/download/SquareMap.zip",
+    "DownloadLinkTesting": "https://github.com/linusfr/ffxiv-square-map/releases/latest/download/SquareMap.zip",
+    "LastUpdated": 1790540110,
+    "IconUrl": "https://raw.githubusercontent.com/linusfr/ffxiv-square-map/main/images/icon.png"
+  }
+]
