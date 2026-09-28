@@ -13,12 +13,12 @@
       "hud",
       "interface"
     ],
-    "AssemblyVersion": "1.0.0.0",
+    "AssemblyVersion": "1.0.1.0",
     "RepoUrl": "https://github.com/linusfr/ffxiv-square-map",
     "DownloadLinkInstall": "https://github.com/linusfr/ffxiv-square-map/releases/latest/download/SquareMap.zip",
     "DownloadLinkUpdate": "https://github.com/linusfr/ffxiv-square-map/releases/latest/download/SquareMap.zip",
     "DownloadLinkTesting": "https://github.com/linusfr/ffxiv-square-map/releases/latest/download/SquareMap.zip",
-    "LastUpdated": 1790599057,
+    "LastUpdated": 1790605820,
     "IconUrl": "https://raw.githubusercontent.com/linusfr/ffxiv-square-map/main/images/icon.png"
   }
 ]

@@ -1,6 +1,10 @@
-## 1.0.0 (2026-09-28)
+## 1.0.1 (2026-09-28)
 
-#### Feature
+#### Bug Fixes
 
-* bootstrap (712633b2)
+* map squareness (8cdfc365)
+
+#### Chores
+
+* pluginmaster 1.0.0 [skip ci] (cd38adac)
 
