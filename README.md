@@ -1,10 +1,13 @@
-# Square Map
-
-[![ci](https://img.shields.io/github/actions/workflow/status/linusfr/ffxiv-square-map/ci.yml?branch=main&label=ci&cacheSeconds=300)](https://github.com/linusfr/ffxiv-square-map/actions/workflows/ci.yml)
-[![release](https://img.shields.io/github/v/release/linusfr/ffxiv-square-map?label=release&cacheSeconds=300)](https://github.com/linusfr/ffxiv-square-map/releases/latest)
-[![licence](https://img.shields.io/github/license/linusfr/ffxiv-square-map?color=blue)](LICENSE)
-
-> A cleaner, square native minimap.
+<div align="center">
+	<img src="images/icon.png" alt="Square Map icon" width="128">
+	<h1>Square Map</h1>
+	<p>A cleaner, square native minimap.</p>
+	<p>
+		<a href="https://github.com/linusfr/ffxiv-square-map/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/linusfr/ffxiv-square-map/ci.yml?branch=main&amp;label=ci&amp;cacheSeconds=300" alt="CI status"></a>
+		<a href="https://github.com/linusfr/ffxiv-square-map/releases/latest"><img src="https://img.shields.io/github/v/release/linusfr/ffxiv-square-map?label=release&amp;cacheSeconds=300" alt="Latest release"></a>
+		<a href="LICENSE"><img src="https://img.shields.io/github/license/linusfr/ffxiv-square-map?color=blue" alt="MIT license"></a>
+	</p>
+</div>
 
 Square Map reshapes FFXIV's minimap and collects its visual cleanup controls in
 one place. The native map, markers, rotation, and interactions remain intact.
@@ -55,12 +58,12 @@ writing the same native UI nodes can fight each other.
   buttons, sun, and weather
 - Restores the original node state when disabled or unloaded
 
-## Building
+## Development
 
 ```sh
 just install
 ```
 
-## Licence
+## License
 
-MIT.
+MIT, see [`LICENSE`](LICENSE).
