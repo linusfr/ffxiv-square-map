@@ -25,8 +25,15 @@ https://raw.githubusercontent.com/xivdev/Penumbra/master/repo.json
 ```
 
 Then open `/xlplugins`, search for **Penumbra**, install it, and restart the
-game once. Penumbra is required; without it, Square Map cannot apply its visual
-mask.
+game once.
+
+**Penumbra also has to be set up, not just installed.** A fresh install has no
+mod directory, and in that state it ignores temporary mods without complaining —
+the frame goes square and the map stays round. Open `/penumbra`, set a mod
+directory (a short path, outside Program Files and outside OneDrive), make sure
+**Enable Mods** is on, and restart the game. `/squaremap` should then read
+"Square mask is active through Penumbra."; anything else says what is wrong, and
+the same line goes to the log and once to chat.
 
 ### Square Map repository
 

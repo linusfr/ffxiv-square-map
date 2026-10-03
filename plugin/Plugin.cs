@@ -16,12 +16,14 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IGameGui GameGui { get; private set; } = null!;
     [PluginService] internal static IAddonLifecycle AddonLifecycle { get; private set; } = null!;
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
+    [PluginService] internal static IChatGui ChatGui { get; private set; } = null!;
 
     private const string Command = "/squaremap";
 
     internal Configuration Config { get; }
     internal bool IsPenumbraAvailable => _minimap.IsPenumbraAvailable;
     internal string SquareMaskStatus => _minimap.SquareMaskStatus;
+    internal bool IsSquareMaskActive => _minimap.IsSquareMaskActive;
 
     private readonly Minimap _minimap;
     private readonly ConfigurationWindow _window;

@@ -27,6 +27,7 @@ internal sealed unsafe class Minimap : IDisposable
 
     internal bool IsPenumbraAvailable => _penumbra.IsAvailable;
     internal string SquareMaskStatus => _penumbra.Status;
+    internal bool IsSquareMaskActive => _penumbra.IsRegistered;
 
     internal void Apply(Configuration config)
     {

@@ -41,6 +41,8 @@ public sealed class ConfigurationWindow
             Hint(_plugin.SquareMaskStatus);
             if (!_plugin.IsPenumbraAvailable)
                 Hint("Install Penumbra, then reload Square Map or relog.");
+            else if (!_plugin.IsSquareMaskActive)
+                Hint("The frame is square but the mask is not — see the line above.");
         }
 
         ImGui.Spacing();
