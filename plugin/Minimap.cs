@@ -108,10 +108,54 @@ internal sealed unsafe class Minimap : IDisposable
         var scale = GetNodeScale(mask);
         var size = new Vector2(mask->Width, mask->Height) * scale;
         var maximum = position + size;
+
+        // The border is drawn by ImGui, and Dalamud's layer sits above every
+        // game window — so without this the frame floats on top of the map,
+        // the inventory, anything dragged over the minimap. The game's own
+        // windows cannot be drawn between, so the border steps aside instead.
+        if (IsCovered(position, maximum))
+            return;
+
         var drawList = ImGui.GetBackgroundDrawList();
 
         drawList.AddRect(position, maximum, ImGui.GetColorU32(new Vector4(0.03f, 0.03f, 0.03f, 0.95f)), 0f, ImDrawFlags.None, 5f);
         drawList.AddRect(position, maximum, ImGui.GetColorU32(new Vector4(0.48f, 0.46f, 0.40f, 0.95f)), 0f, ImDrawFlags.None, 1.5f);
+    }
+
+    /// <summary>
+    /// True when a game window overlaps the minimap. HUD elements are left out:
+    /// they are part of the same layout, never dragged over the minimap, and
+    /// counting them would hide the border whenever the chat log happened to
+    /// sit beside it.
+    /// </summary>
+    private static bool IsCovered(Vector2 minimum, Vector2 maximum)
+    {
+        var stage = AtkStage.Instance();
+        if (stage == null || stage->RaptureAtkUnitManager == null)
+            return false;
+
+        var viewport = ImGui.GetMainViewport().Pos;
+        var units = stage->RaptureAtkUnitManager->AtkUnitManager.AllLoadedUnitsList;
+
+        for (var i = 0; i < units.Count; i++)
+        {
+            var unit = units.Entries[i].Value;
+            if (unit == null || !unit->IsVisible || unit->RootNode == null)
+                continue;
+
+            var name = unit->NameString;
+            if (name.Length == 0 || name[0] == '_' || name == "NaviMap")
+                continue;
+
+            var scale = unit->Scale;
+            var start = new Vector2(unit->X, unit->Y) + viewport;
+            var end = start + new Vector2(unit->RootNode->Width, unit->RootNode->Height) * scale;
+
+            if (start.X < maximum.X && end.X > minimum.X && start.Y < maximum.Y && end.Y > minimum.Y)
+                return true;
+        }
+
+        return false;
     }
 
     private static Vector2 GetNodePosition(AtkResNode* node)
