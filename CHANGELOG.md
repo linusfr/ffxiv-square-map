@@ -1,10 +1,11 @@
-## 1.0.1 (2026-09-28)
+## 1.1.0 (2026-10-03)
 
-#### Bug Fixes
+#### Feature
 
-* map squareness (8cdfc365)
+* say why the mask did not apply (46fa9de2)
 
 #### Chores
 
-* pluginmaster 1.0.0 [skip ci] (cd38adac)
+* align (110ef851)
+* pluginmaster 1.0.1 [skip ci] (494e08d3)
 
