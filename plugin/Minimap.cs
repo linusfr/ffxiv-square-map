@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 using Dalamud.Bindings.ImGui;
@@ -92,6 +93,25 @@ internal sealed unsafe class Minimap : IDisposable
         _adjustmentsApplied = true;
     }
 
+    /// <summary>The minimap rectangle, for the border and for diagnosing it.</summary>
+    internal bool TryGetBounds(out Vector2 minimum, out Vector2 maximum)
+    {
+        minimum = default;
+        maximum = default;
+
+        if (!TryGetAddon(out var addon))
+            return false;
+
+        var mask = addon->GetNodeById(17);
+        if (mask == null)
+            return false;
+
+        minimum = GetNodePosition(mask) + ImGui.GetMainViewport().Pos;
+        maximum = minimum + (new Vector2(mask->Width, mask->Height) * GetNodeScale(mask));
+
+        return true;
+    }
+
     internal void DrawBorder(Configuration config)
     {
         if (!config.Enabled || !config.Square || config.HideBorder)
@@ -113,7 +133,7 @@ internal sealed unsafe class Minimap : IDisposable
         // game window — so without this the frame floats on top of the map,
         // the inventory, anything dragged over the minimap. The game's own
         // windows cannot be drawn between, so the border steps aside instead.
-        if (IsCovered(position, maximum))
+        if (Covering(position, maximum).Count > 0)
             return;
 
         var drawList = ImGui.GetBackgroundDrawList();
@@ -123,18 +143,23 @@ internal sealed unsafe class Minimap : IDisposable
     }
 
     /// <summary>
-    /// True when a game window overlaps the minimap. HUD elements are left out:
-    /// they are part of the same layout, never dragged over the minimap, and
-    /// counting them would hide the border whenever the chat log happened to
-    /// sit beside it.
+    /// The game windows overlapping the minimap right now. HUD elements are left
+    /// out: they are part of the same layout, never dragged over the minimap, and
+    /// counting them would hide the border whenever the chat log sat beside it.
+    /// So are full-screen units — fades, letterboxing and screen-sized backdrops
+    /// are always loaded and would otherwise cover everything forever.
     /// </summary>
-    private static bool IsCovered(Vector2 minimum, Vector2 maximum)
+    internal static List<string> Covering(Vector2 minimum, Vector2 maximum)
     {
+        var covering = new List<string>();
+
         var stage = AtkStage.Instance();
         if (stage == null || stage->RaptureAtkUnitManager == null)
-            return false;
+            return covering;
 
-        var viewport = ImGui.GetMainViewport().Pos;
+        var viewport = ImGui.GetMainViewport();
+        var origin = viewport.Pos;
+        var screen = viewport.Size;
         var units = stage->RaptureAtkUnitManager->AtkUnitManager.AllLoadedUnitsList;
 
         for (var i = 0; i < units.Count; i++)
@@ -147,15 +172,23 @@ internal sealed unsafe class Minimap : IDisposable
             if (name.Length == 0 || name[0] == '_' || name == "NaviMap")
                 continue;
 
-            var scale = unit->Scale;
-            var start = new Vector2(unit->X, unit->Y) + viewport;
-            var end = start + new Vector2(unit->RootNode->Width, unit->RootNode->Height) * scale;
+            var size = new Vector2(unit->RootNode->Width, unit->RootNode->Height) * unit->Scale;
+            if (size.X <= 0 || size.Y <= 0)
+                continue;
+
+            // A unit as big as the screen is a backdrop, not a window someone
+            // dragged over the map.
+            if (size.X >= screen.X * 0.9f && size.Y >= screen.Y * 0.9f)
+                continue;
+
+            var start = new Vector2(unit->X, unit->Y) + origin;
+            var end = start + size;
 
             if (start.X < maximum.X && end.X > minimum.X && start.Y < maximum.Y && end.Y > minimum.Y)
-                return true;
+                covering.Add(name);
         }
 
-        return false;
+        return covering;
     }
 
     private static Vector2 GetNodePosition(AtkResNode* node)

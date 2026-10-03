@@ -69,10 +69,30 @@ public sealed class Plugin : IDalamudPlugin
 
     private void OnCommand(string command, string args)
     {
-        if (args.Trim().Equals("toggle", System.StringComparison.OrdinalIgnoreCase))
+        var argument = args.Trim();
+
+        if (argument.Equals("toggle", System.StringComparison.OrdinalIgnoreCase))
         {
             Config.Enabled = !Config.Enabled;
             SaveConfig();
+            return;
+        }
+
+        // The border is ImGui and therefore above every game window, so it hides
+        // while one covers the minimap. When it hides and nothing is obviously
+        // there, this says which window the game thinks is.
+        if (argument.Equals("cover", System.StringComparison.OrdinalIgnoreCase))
+        {
+            if (!_minimap.TryGetBounds(out var minimum, out var maximum))
+            {
+                ChatGui.Print("[Square Map] the minimap is not on screen.");
+                return;
+            }
+
+            var covering = Minimap.Covering(minimum, maximum);
+            ChatGui.Print(covering.Count == 0
+                ? $"[Square Map] nothing covers the minimap ({minimum.X:0}, {minimum.Y:0} to {maximum.X:0}, {maximum.Y:0}); the border should be drawn."
+                : $"[Square Map] border hidden behind: {string.Join(", ", covering)}");
             return;
         }
 
