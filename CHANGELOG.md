@@ -1,10 +1,10 @@
-## 1.1.1 (2026-10-03)
+## 1.1.2 (2026-10-03)
 
 #### Bug Fixes
 
-* let game windows cover the square border (67206f17)
+* stop full-screen units hiding the square border (239feb2b)
 
 #### Chores
 
-* pluginmaster 1.1.0 [skip ci] (0cf200f2)
+* pluginmaster 1.1.1 [skip ci] (5f36572f)
 
